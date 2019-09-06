@@ -1,8 +1,10 @@
 import 'dart:io';
 
-
+import 'package:thumbnails/thumbnails.dart';
+import 'package:camera_camera/page/video.dart';
 import 'package:flutter/material.dart';
-import 'package:camera_camera/camera_camera.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:camera_camera/camera_camera.dart' show Camera, CameraMode, CameraOrientation;
 
 void main() => runApp(MyApp());
 
@@ -26,37 +28,102 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  File val;
+  List<File> files = [];
+  Camera cam;
+
+  @override
+  void initState() {
+    super.initState();
+    cam = Camera(
+      mode: CameraMode.fullscreen,
+      orientationEnablePhoto: CameraOrientation.landscape,
+      onPicture: (picture) => _onPicture(picture),
+      enableChangeCamera: false,
+    );
+  }
+
+  void _onPicture(File picture) {
+    print(picture.path);
+    setState(() {
+      files.add(picture);
+    });
+  }
+
+  void _onVideo(File video) async {
+    print(video.path);
+    final Directory extDir = await getApplicationDocumentsDirectory();
+    String thumbPath = await Thumbnails.getThumbnail(
+      thumbnailFolder: '${extDir.path}/Thumbs',
+      videoFile: video.path,
+      imageType: ThumbFormat.JPEG,
+      quality: 90,
+    );
+    setState(() {
+      files.add(File(thumbPath));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Rully")),
-        floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.camera_alt),
-            onPressed: () async {
-              val = await showDialog(
-                  context: context,
-                  builder: (context) => Camera(
-                        mode: CameraMode.fullscreen,
-                        orientationEnablePhoto: CameraOrientation.landscape,
-                        /*
-                        imageMask: CameraFocus.square(
-                          color: Colors.black.withOpacity(0.5),
-                        ),
-                        */
-                      ));
-              setState(() {});
-            }),
-        body: Center(
-            child: Container(
+      appBar: AppBar(title: Text("Rully")),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          FloatingActionButton(
+              backgroundColor: Colors.white,
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.black,
+              ),
+              onPressed: () async {
+                showDialog(context: context, builder: (context) => cam);
+              }),
+          Padding(
+            padding: EdgeInsets.only(
+              right: 5,
+              left: 5,
+            ),
+          ),
+          FloatingActionButton(
+              backgroundColor: Colors.white,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                width: 10,
+                height: 10,
+              ),
+              onPressed: () async {
+                showDialog(
+                    context: context,
+                    builder: (context) => Video(
+                          onVideo: (video) => _onVideo(video),
+                        ));
+              }),
+        ],
+      ),
+      body: Center(
+        child: files.length > 0
+            ? Container(
                 height: MediaQuery.of(context).size.height * 0.7,
                 width: MediaQuery.of(context).size.width * 0.8,
-                child: val != null
-                    ? Image.file(
-                        val,
-                        fit: BoxFit.contain,
-                      )
-                    : Text("Tire a foto"))));
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                  ),
+                  itemCount: files.length,
+                  itemBuilder: (context, index) => Card(
+                    child: Image.file(
+                      files[index],
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              )
+            : Center(child: Text("Tire a foto")),
+      ),
+    );
   }
 }

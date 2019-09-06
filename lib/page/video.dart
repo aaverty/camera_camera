@@ -1,11 +1,15 @@
-
+import 'dart:io';
 import 'package:camera_camera/page/bloc/bloc_video.dart';
-import 'package:video_player/video_player.dart';
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:screen/screen.dart';
 
 class Video extends StatefulWidget {
+  final Function(File video) onVideo;
+
+  Video({Key key, this.onVideo}) : super(key: key);
+
   @override
   _VideoState createState() => _VideoState();
 }
@@ -44,8 +48,7 @@ class _VideoState extends State<Video> {
               child: Container(
                 color: Colors.black,
               )),
-          preferredSize:
-              Size.fromHeight(MediaQuery.of(context).size.height * 0.12)),
+          preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.12)),
       body: Stack(
         children: <Widget>[
           Center(
@@ -59,20 +62,13 @@ class _VideoState extends State<Video> {
                             if (snapshot.hasData) {
                               if (snapshot.data) {
                                 return AspectRatio(
-                                    aspectRatio:
-                                        bloc.controllCamera.value.aspectRatio,
-                                    child: VideoPlayer(bloc.controllVideo));
+                                    aspectRatio: bloc.controllCamera.value.aspectRatio,
+                                    child: Chewie(controller: ChewieController(videoPlayerController: bloc.controllVideo)));
                               } else {
-                                return AspectRatio(
-                                    aspectRatio:
-                                        bloc.controllCamera.value.aspectRatio,
-                                    child: CameraPreview(bloc.controllCamera));
+                                return AspectRatio(aspectRatio: bloc.controllCamera.value.aspectRatio, child: CameraPreview(bloc.controllCamera));
                               }
                             } else {
-                              return AspectRatio(
-                                  aspectRatio:
-                                      bloc.controllCamera.value.aspectRatio,
-                                  child: CameraPreview(bloc.controllCamera));
+                              return AspectRatio(aspectRatio: bloc.controllCamera.value.aspectRatio, child: CameraPreview(bloc.controllCamera));
                             }
                           })
                       : Container();
@@ -164,18 +160,14 @@ class _VideoState extends State<Video> {
                                               return CircularProgressIndicator(
                                                 value: snapshot.data,
                                                 strokeWidth: 6.0,
-                                                valueColor:
-                                                    AlwaysStoppedAnimation<
-                                                        Color>(Colors.red),
+                                                valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
                                               );
                                             });
                                       } else {
                                         return CircularProgressIndicator(
                                           value: 1.0,
                                           strokeWidth: 6.0,
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                                  Colors.grey.shade800),
+                                          valueColor: AlwaysStoppedAnimation<Color>(Colors.grey.shade800),
                                         );
                                       }
                                     }))
@@ -233,8 +225,12 @@ class _VideoState extends State<Video> {
                                     color: Colors.white,
                                   ),
                                   onPressed: () {
-                                    Navigator.pop(
-                                        context, bloc.videoPath.value);
+                                    if (Navigator.canPop(context) && widget.onVideo == null) {
+                                      Navigator.pop(context, bloc.videoPath.value);
+                                    } else {
+                                      widget.onVideo(bloc.videoPath.value);
+                                      bloc.videoPath.sink.add(null);
+                                    }
                                   },
                                 ),
                                 backgroundColor: Colors.grey.shade900,

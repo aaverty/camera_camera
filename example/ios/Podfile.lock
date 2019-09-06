@@ -1,0 +1,65 @@
+PODS:
+  - camera (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+  - image_cropper (0.0.1):
+    - Flutter
+    - TOCropViewController (~> 2.5.0)
+  - native_device_orientation (0.0.1):
+    - Flutter
+  - path_provider (0.0.1):
+    - Flutter
+  - screen (0.0.1):
+    - Flutter
+  - thumbnails (0.0.1):
+    - Flutter
+  - TOCropViewController (2.5.1)
+  - video_player (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - camera (from `.symlinks/plugins/camera/ios`)
+  - Flutter (from `.symlinks/flutter/ios`)
+  - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
+  - native_device_orientation (from `.symlinks/plugins/native_device_orientation/ios`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - screen (from `.symlinks/plugins/screen/ios`)
+  - thumbnails (from `.symlinks/plugins/thumbnails/ios`)
+  - video_player (from `.symlinks/plugins/video_player/ios`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - TOCropViewController
+
+EXTERNAL SOURCES:
+  camera:
+    :path: ".symlinks/plugins/camera/ios"
+  Flutter:
+    :path: ".symlinks/flutter/ios"
+  image_cropper:
+    :path: ".symlinks/plugins/image_cropper/ios"
+  native_device_orientation:
+    :path: ".symlinks/plugins/native_device_orientation/ios"
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
+  screen:
+    :path: ".symlinks/plugins/screen/ios"
+  thumbnails:
+    :path: ".symlinks/plugins/thumbnails/ios"
+  video_player:
+    :path: ".symlinks/plugins/video_player/ios"
+
+SPEC CHECKSUMS:
+  camera: d56ad165545ae5a0ffb892376033760a969c68c8
+  Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  image_cropper: f25bdfbf1ef970c9a0a0f78306fb6a0aaac7229e
+  native_device_orientation: e24d00be281de72996640885d80e706142707660
+  path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
+  screen: abd91ca7bf3426e1cc3646d27e9b2358d6bf07b0
+  thumbnails: bb4f4e9bb4b51c8ae4e6ad9a2fa81373f9b634ad
+  TOCropViewController: 00dc36c4e4a0f4a45efa91adbf22df8a4fae01d3
+  video_player: 3964090a33353060ed7f58aa6427c7b4b208ec21
+
+PODFILE CHECKSUM: 64b2109b760ac9073c864e2a8278e6464efaa219
+
+COCOAPODS: 1.7.4
