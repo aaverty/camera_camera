@@ -14,8 +14,7 @@ class BlocVideo {
   var videoOn = BehaviorSubject<bool>();
   var playPause = BehaviorSubject<bool>.seeded(false);
   var timeVideo = BehaviorSubject<double>.seeded(0.0);
-  FloatingActionButtonLocation fabLocation =
-      FloatingActionButtonLocation.centerDocked;
+  FloatingActionButtonLocation fabLocation = FloatingActionButtonLocation.centerDocked;
 
   CameraController controllCamera;
   VideoPlayerController controllVideo;
@@ -59,8 +58,7 @@ class BlocVideo {
     if (controllCamera != null) {
       await controllCamera.dispose();
     }
-    controllCamera =
-        CameraController(cameraDescription, ResolutionPreset.medium);
+    controllCamera = CameraController(cameraDescription, ResolutionPreset.medium);
     controllCamera.addListener(() {
       if (controllCamera.value.hasError) selectCamera.sink.add(false);
     });
@@ -87,7 +85,7 @@ class BlocVideo {
   }
 
   void deleteVideo() {
-    var dir = new Directory(videoPath.value.path);
+    var dir = Directory(videoPath.value.path);
     dir.deleteSync(recursive: true);
     videoPath.sink.add(null);
     videoOn.sink.add(null);
@@ -127,7 +125,7 @@ class BlocVideo {
       return null;
     }
     videoOn.sink.add(false);
-  /*  Timer.periodic(Duration(seconds: 1), (time) {
+    /*  Timer.periodic(Duration(seconds: 1), (time) {
       var value = timeVideo.value * 60;
       if (time.tick == 63 || videoOn.value == true) {
         onStopButtonPressed();
@@ -170,8 +168,8 @@ class BlocVideo {
 
   void dispose() {
     cameras.close();
-    controllCamera.dispose();
-    controllVideo.dispose();
+    controllCamera != null ? controllCamera.dispose() : null;
+    controllVideo != null ? controllVideo.dispose() : null;
     selectCamera.close();
     videoPath.close();
     cameraOn.close();
