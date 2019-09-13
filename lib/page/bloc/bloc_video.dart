@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:native_device_orientation/native_device_orientation.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -15,6 +16,7 @@ class BlocVideo {
   var playPause = BehaviorSubject<bool>.seeded(false);
   var timeVideo = BehaviorSubject<double>.seeded(0.0);
   FloatingActionButtonLocation fabLocation = FloatingActionButtonLocation.centerDocked;
+  NativeDeviceOrientation orientation;
 
   CameraController controllCamera;
   VideoPlayerController controllVideo;
@@ -93,8 +95,9 @@ class BlocVideo {
 
   //Recording video
 
-  void onVideoRecordButtonPressed() {
+  void onVideoRecordButtonPressed(NativeDeviceOrientation orientation) {
     fabLocation = FloatingActionButtonLocation.centerFloat;
+    orientation = orientation;
     startVideoRecording().then((String filePath) {
       if (filePath != null) videoPath.sink.add(File(filePath));
     });
