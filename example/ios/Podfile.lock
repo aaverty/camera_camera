@@ -51,7 +51,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   camera: d56ad165545ae5a0ffb892376033760a969c68c8
-  Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   image_cropper: f25bdfbf1ef970c9a0a0f78306fb6a0aaac7229e
   native_device_orientation: e24d00be281de72996640885d80e706142707660
   path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259

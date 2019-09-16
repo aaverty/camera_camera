@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:chewie/chewie.dart';
 import 'package:native_device_orientation/native_device_orientation.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class BlocVideo {
   NativeDeviceOrientation orientation;
 
   CameraController controllCamera;
-  VideoPlayerController controllVideo;
+  ChewieController controllVideo;
 
   Future getCameras() async {
     await availableCameras().then((lista) {
@@ -161,9 +162,12 @@ class BlocVideo {
   }
 
   Future<void> _startVideoPlayer() async {
-    controllVideo = VideoPlayerController.file(videoPath.value);
+    controllVideo = ChewieController(
+      videoPlayerController: VideoPlayerController.file(videoPath.value),
+      aspectRatio: 16 / 9,
+    );
 
-    await controllVideo.initialize();
+    await controllVideo.videoPlayerController.initialize();
     await controllVideo.setLooping(true);
     await controllVideo.play();
     playPause.sink.add(true);
@@ -172,6 +176,7 @@ class BlocVideo {
   void dispose() {
     cameras.close();
     controllCamera != null ? controllCamera.dispose() : null;
+    controllVideo != null && controllVideo.videoPlayerController != null ? controllVideo.videoPlayerController.dispose() : null;
     controllVideo != null ? controllVideo.dispose() : null;
     selectCamera.close();
     videoPath.close();

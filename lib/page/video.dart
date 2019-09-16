@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:camera_camera/page/bloc/bloc_video.dart';
 import 'package:camera_camera/shared/widgets/orientation_icon.dart';
+import 'package:chewie/chewie.dart';
 // import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -88,9 +89,9 @@ class _VideoState extends State<Video> {
                                       return OrientationWidget(
                                         orientation: bloc.orientation,
                                         child: AspectRatio(
-                                          aspectRatio: bloc.controllCamera.value.aspectRatio,
-                                          child: VideoPlayer(
-                                            bloc.controllVideo,
+                                          aspectRatio: bloc.controllVideo.aspectRatio,
+                                          child: Chewie(
+                                            controller: bloc.controllVideo,
                                           ),
                                         ),
                                       );
