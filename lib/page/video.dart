@@ -8,7 +8,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/services.dart';
 import 'package:native_device_orientation/native_device_orientation.dart';
 import 'package:screen/screen.dart';
-import 'package:video_player/video_player.dart';
+// import 'package:video_player/video_player.dart';
 
 class Video extends StatefulWidget {
   final Function(File video) onVideo;
@@ -52,18 +52,18 @@ class _VideoState extends State<Video> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    Size sizeImage = size;
-    double width = size.width;
-    double height = size.height;
+    // Size sizeImage = size;
+    // double width = size.width;
+    // double height = size.height;
 
     return NativeDeviceOrientationReader(
         useSensor: true,
         builder: (context) {
           NativeDeviceOrientation orientation = NativeDeviceOrientationReader.orientation(context);
           if (orientation == NativeDeviceOrientation.portraitDown || orientation == NativeDeviceOrientation.portraitUp) {
-            sizeImage = Size(width, height);
+            // sizeImage = Size(width, height);
           } else {
-            sizeImage = Size(height, width);
+            // sizeImage = Size(height, width);
           }
           return Scaffold(
             backgroundColor: Colors.black,

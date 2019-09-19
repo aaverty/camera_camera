@@ -16,6 +16,8 @@ class BlocVideo {
   var videoOn = BehaviorSubject<bool>();
   var playPause = BehaviorSubject<bool>.seeded(false);
   var timeVideo = BehaviorSubject<double>.seeded(0.0);
+  Timer _timer;
+  int maxTime = 30;
   FloatingActionButtonLocation fabLocation = FloatingActionButtonLocation.centerDocked;
   NativeDeviceOrientation orientation;
 
@@ -124,6 +126,12 @@ class BlocVideo {
 
     try {
       await controllCamera.startVideoRecording(filePath);
+      if (_timer == null) {
+        _timer = Timer.periodic(
+          Duration(seconds: 1),
+          _stopOnMaxLimit,
+        );
+      }
     } on CameraException catch (e) {
       print(e);
       return null;
@@ -145,12 +153,27 @@ class BlocVideo {
     return filePath;
   }
 
+  _stopOnMaxLimit(Timer timer) async {
+    if (maxTime < 1) {
+      if (_timer.isActive) {
+        timer.cancel();
+      }
+      await stopVideoRecording();
+    } else {
+      maxTime = maxTime - 1;
+    }
+  }
+
   Future<void> stopVideoRecording() async {
     if (!controllCamera.value.isRecordingVideo) {
       return null;
     }
 
     try {
+      if (_timer.isActive) {
+        _timer.cancel();
+        _timer = null;
+      }
       await controllCamera.stopVideoRecording();
     } on CameraException catch (e) {
       print(e);

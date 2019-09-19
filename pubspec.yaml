@@ -1,7 +1,7 @@
 name: camera_camera
-description: Um Flutter Plugin de câmera, que funciona tanto em iOS e Android. Na parte da câmera temos a parte editável. Para Android minSDK 21.
+description:
 version: 1.0.24
-author: Gabriel Sávio - Flutterando <gbrlsavio2@gmail.com>
+author: Gabriel
 repository: https://github.com/gabuldev/camera_camera
 homepage: https://github.com/gabulsavul
 
@@ -15,7 +15,7 @@ dependencies:
       url: git://github.com/tengio/plugins.git
       ref: 310a8f06c4981121a5553b0f6f3a8cdf475b8af1
       path: packages/camera
-  # video_player:
+  video_player: ^0.10.2+1
   #   git:
   #     url: git://github.com/tengio/plugins.git
   #     ref: 310a8f06c4981121a5553b0f6f3a8cdf475b8af1
@@ -28,12 +28,12 @@ dependencies:
   flutter:
     sdk: flutter
 
-dependency_overrides:
-  video_player:
-    git:
-      url: git://github.com/tengio/plugins.git
-      ref: 310a8f06c4981121a5553b0f6f3a8cdf475b8af1
-      path: packages/video_player
+# dependency_overrides:
+#   video_player:
+#     git:
+#       url: git://github.com/tengio/plugins.git
+#       ref: 310a8f06c4981121a5553b0f6f3a8cdf475b8af1
+#       path: packages/video_player
 
 dev_dependencies:
   flutter_test:
